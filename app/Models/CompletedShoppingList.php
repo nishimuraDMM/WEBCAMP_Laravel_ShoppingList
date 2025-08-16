@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class CompletedShoppingList extends Model
 {
     use HasFactory;
+    protected $guarded = [];   
 }

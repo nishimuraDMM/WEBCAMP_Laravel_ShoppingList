@@ -77,6 +77,23 @@ class ShoppingListController extends Controller
         return redirect('/shopping_list/list');
 
     }
+     /**
+     * 削除処理
+     */
+    public function delete(Request $request, $task_id)
+    {
+        // task_idのレコードを取得する
+        $task = $this->getTaskModel($task_id);
+
+        // タスクを削除する
+        if ($task !== null) {
+            $task->delete();
+            $request->session()->flash('front.task_delete_success', true);
+        }
+
+        // 一覧に遷移する
+        return redirect('/shopping_list/list');
+    }
     public function complete(Request $request, $task_id)
     {
         /* タスクを完了テーブルに移動させる */
@@ -115,6 +132,7 @@ class ShoppingListController extends Controller
             // トランザクション異常終了
             DB::rollBack();
             // 完了失敗メッセージ出力
+            var_dump($e->getMessage()); exit;
             $request->session()->flash('front.task_completed_failure', true);
         }
 

@@ -13,13 +13,16 @@ class UserController extends Controller
       // データの取得
       $group_by_column = ['users.id', 'users.name'];
       $list = UserModel::select($group_by_column)
-                       ->selectRaw('count(tasks.id) AS task_num')
-                       ->leftJoin('tasks', 'users.id', '=', 'tasks.user_id')
+                       ->selectRaw('count(shopping_lists.id) AS task_num')
+                       ->leftJoin('shopping_lists', 'users.id', '=', 'shopping_lists.user_id')
                        ->groupBy($group_by_column)
                        ->orderBy('users.id')
                        ->get();
-      echo "<pre>\n";
-      var_dump($list->toArray()); exit;
-      return view('admin.user.list');
+      //echo "<pre>\n";
+    //  var_dump($list->toArray()); exit;
+    return view('admin.user.list', [
+      'users' => $list
+  ]);
+  
     }
 }
