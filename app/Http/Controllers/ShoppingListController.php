@@ -8,6 +8,10 @@ use App\Http\Requests\ShoppingRegisterPostRequest;
 use Illuminate\Support\Facades\Auth;
 use App\Models\shopping_list as TaskModel;
 
+use Illuminate\Support\Facades\DB;
+use App\Models\CompletedShoppingList as CompletedTaskModel;
+
+
 class ShoppingListController extends Controller
 {
     /**
@@ -24,7 +28,7 @@ class ShoppingListController extends Controller
         // 一覧の取得
         $list = TaskModel::where('user_id', Auth::id())
                     
-                         ->orderBy('period')
+                   
                          ->orderBy('created_at')
                          ->paginate($per_page);
                         // ->get();
@@ -38,7 +42,7 @@ class ShoppingListController extends Controller
         var_dump($sql);
         */
         
-        return view('task.list', ['list' => $list]);
+        return view('shopping_list', ['list' => $list]);
     }
 
     /**
@@ -70,7 +74,65 @@ class ShoppingListController extends Controller
         $request->session()->flash('front.task_register_success', true);
 
         // リダイレクト
-        return redirect('/task/list');
+        return redirect('/shopping_list/list');
 
     }
-}
+    public function complete(Request $request, $task_id)
+    {
+        /* タスクを完了テーブルに移動させる */
+        try {
+            // トランザクション開始
+            DB::beginTransaction();
+
+            // task_idのレコードを取得する
+            $task = $this->getTaskModel($task_id);
+            if ($task === null) {
+                // task_idが不正なのでトランザクション終了
+                throw new \Exception('');
+            }
+
+            // tasks側を削除する
+            $task->delete();
+            //var_dump($task->toArray()); exit;
+
+            // completed_tasks側にinsertする
+            $dask_datum = $task->toArray();
+            unset($dask_datum['created_at']);
+            unset($dask_datum['updated_at']);
+            $r = CompletedTaskModel::create($dask_datum);
+            if ($r === null) {
+                // insertで失敗したのでトランザクション終了
+                throw new \Exception('');
+            }
+            // echo '処理成功'; exit;
+
+            // トランザクション終了
+            DB::commit();
+            // 完了メッセージ出力
+            $request->session()->flash('front.task_completed_success', true);
+        } catch(\Throwable $e) {
+            // var_dump($e->getMessage()); exit;
+            // トランザクション異常終了
+            DB::rollBack();
+            // 完了失敗メッセージ出力
+            $request->session()->flash('front.task_completed_failure', true);
+        }
+
+        // 一覧に遷移する
+        return redirect('/shopping_list/list');
+    }
+    protected function getTaskModel($task_id)
+    {
+        // task_idのレコードを取得する
+        $task = TaskModel::find($task_id);
+        if ($task === null) {
+            return null;
+        }
+        // 本人以外のタスクならNGとする
+        if ($task->user_id !== Auth::id()) {
+            return null;
+        }
+        
+        return $task;
+    }
+ }

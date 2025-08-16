@@ -44,7 +44,7 @@ class AuthController extends Controller
 
         // 認証に成功した場合
         $request->session()->regenerate();
-        return redirect()->intended('/shopping/list');
+        return redirect()->intended('/shopping_list/list');
     }   
     public function logout(Request $request)
     {

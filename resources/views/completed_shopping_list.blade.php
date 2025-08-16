@@ -6,7 +6,7 @@
 {{-- メインコンテンツ --}}
 @section('contents')
 <h1>購入済み「買うもの」一覧</h1>
-<a href="/shopping/list">「買うもの」一覧に戻る</a><br>
+<a href="/shopping_list/list">「買うもの」一覧に戻る</a><br>
 <table border="1">
         <tr>
             <th>「買うもの」名
@@ -24,7 +24,8 @@
          {{-- {{ $list->links() }} --}}
         現在 {{ $list->currentPage() }} ページ目<br>
         @if ($list->onFirstPage() === false)
-        <a href="/completed_shopping_list/list">最初のページ</a>
+        <!--???-->
+        <a href="shopping_list/completed_shopping_list/list">最初のページ</a>
         @else
         最初のページ
         @endif
