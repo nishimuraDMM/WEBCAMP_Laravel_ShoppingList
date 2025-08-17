@@ -6,8 +6,8 @@
  <h1>ユーザ一覧</h1>
  <table border="1">
     <tr>
-        <th>ユーザーID</th>
-        <th>ユーザー名</th>
+        <th>ユーザID</th>
+        <th>ユーザ名</th>
         <th>購入した「買うもの」の数</th>
 
     </tr>
