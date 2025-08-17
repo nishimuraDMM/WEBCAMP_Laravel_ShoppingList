@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('completed_shopping_lists', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 128)->comment('買うもの');
+            $table->string('name', 255)->comment('買うもの');
         
             $table->unsignedBigInteger('user_id')->comment('この買うものの所有者');
             $table->foreign('user_id')->references('id')->on('users'); // 外部キー制約                    
