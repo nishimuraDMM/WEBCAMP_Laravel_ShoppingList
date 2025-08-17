@@ -6,12 +6,13 @@
         <title>ログイン機能付きタスク管理サービス 管理画面 @yield('title')</title>
     </head>
     <body>
-             
+    @auth('admin')
+ 
 <a href="/admin/user/top">管理画面トップ</a><br>
 <a href="/admin/user/list">ユーザ一覧</a><br>
 
 <a href="/admin/logout">ログアウト</a><br>
-
+@endauth
         @yield('contents')
     </body>
 </html>
