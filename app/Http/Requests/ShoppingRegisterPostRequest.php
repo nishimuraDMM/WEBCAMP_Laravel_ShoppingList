@@ -20,7 +20,7 @@ class ShoppingRegisterPostRequest extends FormRequest
     {
         return [
        
-                'name' => ['required', 'max:128'],
+                'name' => ['required', 'max:255'],
             //
         ];
     }
