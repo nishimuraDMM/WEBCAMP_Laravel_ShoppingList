@@ -29,7 +29,7 @@ class ShoppingListController extends Controller
         $list = TaskModel::where('user_id', Auth::id())
                     
                    
-                         ->orderBy('created_at')
+                         ->orderBy('name')
                          ->paginate($per_page);
                         // ->get();
         /*

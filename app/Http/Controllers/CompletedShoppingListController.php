@@ -20,12 +20,12 @@ class CompletedShoppingListController extends Controller
 
         // 一覧の取得
         $list = TaskModel::where('user_id', Auth::id())
-                      
+        ->orderBy('name')
                         ->orderBy('created_at')
      ->paginate($per_page);
      
      $sql = TaskModel::where('user_id', Auth::id())
-                 
+     ->orderBy('name')
                         ->orderBy('created_at')
                         ->toSql();
         //echo "<pre>\n"; var_dump($sql, $list); exit;
