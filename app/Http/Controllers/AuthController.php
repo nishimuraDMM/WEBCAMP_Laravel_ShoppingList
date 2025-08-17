@@ -51,8 +51,9 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->regenerateToken();  // CSRFトークンの再生成
         $request->session()->regenerate();  // セッションIDの再生成
-        return redirect(('front.index'));
+        return redirect(route('front.index'));
     } 
+    
     protected function redirectTo($request)
     {
         if (! $request->expectsJson()) {

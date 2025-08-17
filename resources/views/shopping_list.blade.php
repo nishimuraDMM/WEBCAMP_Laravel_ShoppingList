@@ -27,7 +27,7 @@
             @endif
             <form action="/shopping_list/register" method="post">
                 @csrf
-                「買うもの」:<input name="name" value="{{ old('name') }}"><br>
+                「買うもの」名:<input name="name" value="{{ old('name') }}"><br>
                  <button>「買うもの」を登録する</button>
             </form>
 
@@ -37,12 +37,12 @@
         <table border="1">
         <tr>
             <th>登録日
-            <th>「買うもの」
+            <th>「買うもの」名前
       
     @foreach ($list as $shopping_list)
         <tr>
-            <td>{{$shopping_list->created_at}}
-            <td>{{ $shopping_list->name }}
+        <td>{{ $shopping_list->created_at->format('Y-m-d') }}</td>
+        <td>{{ $shopping_list->name }}
           
           <td>
                 <form action="{{ route('complete', ['shopping_list_id' => $shopping_list->id]) }}" method="post">
@@ -51,6 +51,7 @@
                 </form>
                 
                 <td>
+                     　
                   <td>
                   
         <form action="{{ route('delete', ['shopping_list_id' => $shopping_list->id]) }}" method="post">
