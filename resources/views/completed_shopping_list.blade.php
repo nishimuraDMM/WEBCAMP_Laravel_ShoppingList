@@ -16,7 +16,7 @@
         <tr>
             <td>{{ $task->name }}
           
-            <td>{{ $task->created_at }}
+            <td>{{ $task->created_at->format('Y/m/d') }}</td>
 
         @endforeach
         </table>
@@ -24,8 +24,8 @@
          {{-- {{ $list->links() }} --}}
         現在 {{ $list->currentPage() }} ページ目<br>
         @if ($list->onFirstPage() === false)
-        <!--???-->
-        <a href="shopping_list/completed_shopping_list/list">最初のページ</a>
+   
+        <a href="/completed_shopping_list/list">最初のページ</a>
         @else
         最初のページ
         @endif
